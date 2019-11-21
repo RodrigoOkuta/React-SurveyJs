@@ -1,12 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import * as Survey from "survey-react";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+Survey.StylesManager.applyTheme("default");
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+var json = {
+  surveyId: "d2e7c196-195c-41bf-a060-2d2e962bd58f"
+};
+
+var survey = new Survey.Model(json);
+
+survey.onComplete.add(function(result) {
+  document.querySelector("#surveyResult").innerHTML =
+    "result: " + JSON.stringify(result.data);
+});
+
+ReactDOM.render(
+  <Survey.Survey model={survey} />,
+  document.getElementById("surveyElement")
+);
